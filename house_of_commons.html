@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>House of Commons — Bill Writing Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1B3A6B;
+    --navy-deep: #0F2244;
+    --blue: #2E5FA3;
+    --gold: #C9A84C;
+    --gold-light: #F0D98A;
+    --cream: #F9F6EF;
+    --parchment: #EDE8DC;
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --red: #C0392B;
+    --green: #1A6B45;
+    --step-bg: #EEF4FF;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--navy-deep);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* === HEADER === */
+  header {
+    background: linear-gradient(135deg, var(--navy-deep) 0%, var(--navy) 60%, #2a4f8a 100%);
+    border-bottom: 3px solid var(--gold);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  }
+
+  .header-inner {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .portcullis {
+    font-size: 36px;
+    filter: drop-shadow(0 0 8px rgba(201,168,76,0.6));
+  }
+
+  .header-text h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    color: #fff;
+    letter-spacing: 0.03em;
+  }
+
+  .header-text p {
+    font-size: 0.82rem;
+    color: var(--gold-light);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  .progress-bar-wrap {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+
+  .progress-label {
+    font-size: 0.75rem;
+    color: var(--gold-light);
+    letter-spacing: 0.05em;
+  }
+
+  .progress-bar {
+    width: 180px;
+    height: 6px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    border-radius: 3px;
+    transition: width 0.5s ease;
+    width: 16.6%;
+  }
+
+  /* === MAIN LAYOUT === */
+  main {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 32px 16px 80px;
+  }
+
+  /* === STEP NAV === */
+  .step-nav {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+
+  .step-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.4);
+    font-size: 0.8rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Source Sans 3', sans-serif;
+  }
+
+  .step-dot:hover { border-color: var(--gold); color: var(--gold); }
+  .step-dot.active { background: var(--gold); border-color: var(--gold); color: var(--navy-deep); }
+  .step-dot.done { background: var(--green); border-color: var(--green); color: #fff; }
+
+  /* === STEP CARD === */
+  .step-card {
+    background: var(--cream);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+    display: none;
+    animation: slideIn 0.3s ease;
+  }
+
+  .step-card.active { display: block; }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .step-header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 3px solid var(--gold);
+  }
+
+  .step-number {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--gold);
+    color: var(--navy-deep);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .step-header-text h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: #fff;
+  }
+
+  .step-header-text p {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.65);
+    margin-top: 4px;
+  }
+
+  .step-emoji { font-size: 1.8rem; }
+
+  /* === STEP BODY === */
+  .step-body {
+    padding: 28px 32px;
+  }
+
+  .info-box {
+    background: #EEF4FF;
+    border-left: 4px solid var(--blue);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin-bottom: 22px;
+    font-size: 0.92rem;
+    color: #2c3e6b;
+    line-height: 1.6;
+  }
+
+  .info-box strong { color: var(--navy); }
+
+  .example-box {
+    background: #FFFBF0;
+    border: 1.5px dashed var(--gold);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 0.88rem;
+    color: #5a4a00;
+  }
+
+  .example-box strong { color: var(--gold); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 4px; }
+
+  .field-group { margin-bottom: 22px; }
+  
+  .field-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: var(--navy);
+    margin-bottom: 7px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .field-group input,
+  .field-group textarea {
+    width: 100%;
+    border: 1.5px solid #c5cfe0;
+    border-radius: 7px;
+    padding: 10px 14px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.93rem;
+    color: var(--text);
+    background: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    resize: vertical;
+  }
+
+  .field-group input:focus,
+  .field-group textarea:focus {
+    outline: none;
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(46,95,163,0.12);
+  }
+
+  .field-hint {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 5px;
+    display: flex;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  /* === CLAUSE BUILDER === */
+  .clause-item {
+    background: #fff;
+    border: 1.5px solid #d0dae8;
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 14px;
+    position: relative;
+  }
+
+  .clause-num {
+    position: absolute;
+    top: -12px;
+    left: 14px;
+    background: var(--navy);
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 0.78rem;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-family: 'Playfair Display', serif;
+    letter-spacing: 0.03em;
+  }
+
+  /* === VOCAB TABLE === */
+  .vocab-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    font-size: 0.88rem;
+  }
+
+  .vocab-table th {
+    background: var(--navy);
+    color: var(--gold);
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+  }
+
+  .vocab-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid #e0e6f0;
+    vertical-align: top;
+  }
+
+  .vocab-table tr:nth-child(even) td { background: #f4f7fc; }
+
+  .vocab-table .term { font-weight: 700; color: var(--navy); }
+
+  /* === SPEECH BUILDER === */
+  .speech-block {
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+
+  .speech-block-header {
+    background: var(--navy);
+    color: var(--gold);
+    padding: 8px 16px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .speech-block-body {
+    background: #fff;
+    border: 1.5px solid #d0dae8;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    padding: 12px 14px;
+  }
+
+  /* === CHECKLIST === */
+  .checklist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 11px 14px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    background: #fff;
+    border: 1.5px solid #d0dae8;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .checklist-item:hover { border-color: var(--blue); background: #f0f5ff; }
+
+  .checklist-item.checked {
+    border-color: var(--green);
+    background: #f0faf5;
+  }
+
+  .checklist-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-top: 1px;
+    accent-color: var(--green);
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+
+  .checklist-item span { font-size: 0.91rem; line-height: 1.5; }
+
+  /* === OPPOSITION TABLE === */
+  .opp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  .opp-col-header {
+    padding: 10px 14px;
+    border-radius: 7px 7px 0 0;
+    font-weight: 700;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .opp-col-header.against { background: #fde8e8; color: var(--red); }
+  .opp-col-header.for { background: #e8faf2; color: var(--green); }
+
+  /* === BUTTONS === */
+  .btn-row {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid #d0dae8;
+  }
+
+  .btn {
+    padding: 11px 24px;
+    border-radius: 7px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    letter-spacing: 0.03em;
+  }
+
+  .btn-prev {
+    background: #fff;
+    border: 1.5px solid #c5cfe0;
+    color: var(--navy);
+  }
+
+  .btn-prev:hover { background: #f0f3fa; }
+
+  .btn-next {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(27,58,107,0.35);
+  }
+
+  .btn-next:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(27,58,107,0.4); }
+
+  .btn-export {
+    background: linear-gradient(135deg, var(--gold) 0%, #a07820 100%);
+    color: var(--navy-deep);
+    box-shadow: 0 4px 14px rgba(201,168,76,0.3);
+  }
+
+  .btn-export:hover { transform: translateY(-1px); }
+
+  /* === PHRASE BANK === */
+  .phrase-bank {
+    background: var(--parchment);
+    border: 1.5px solid #c9b77a;
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 14px 0;
+  }
+
+  .phrase-bank h4 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #7a5c00;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+
+  .phrase-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+
+  .phrase-chip {
+    background: #fff;
+    border: 1.5px solid #c9b77a;
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 0.82rem;
+    color: #5a4000;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-style: italic;
+  }
+
+  .phrase-chip:hover { background: var(--gold); color: var(--navy-deep); border-color: var(--gold); }
+
+  /* === FINAL BILL PREVIEW === */
+  #bill-preview {
+    background: #fff;
+    border: 2px solid var(--navy);
+    border-radius: 8px;
+    padding: 28px 32px;
+    font-family: 'Playfair Display', serif;
+    line-height: 1.8;
+    display: none;
+    margin-top: 24px;
+  }
+
+  #bill-preview h3 { font-size: 1.1rem; color: var(--navy); text-align: center; margin-bottom: 6px; }
+  #bill-preview .bill-title { text-align: center; font-size: 0.95rem; font-weight: 700; color: var(--navy); margin-bottom: 14px; border-bottom: 1px solid #c5cfe0; padding-bottom: 14px; }
+  #bill-preview .bill-section { margin-bottom: 14px; font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; }
+  #bill-preview .bill-section strong { font-family: 'Playfair Display', serif; color: var(--navy); }
+
+  @media (max-width: 600px) {
+    .two-col { grid-template-columns: 1fr; }
+    .opp-grid { grid-template-columns: 1fr; }
+    .step-body { padding: 20px 18px; }
+    .step-header { padding: 18px 20px; }
+    .header-inner { flex-wrap: wrap; }
+    .progress-bar-wrap { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="portcullis">🏛</div>
+    <div class="header-text">
+      <h1>House of Commons — Bill Writing Guide</h1>
+      <p>English Class · Parliamentary Debate Workshop</p>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-label" id="progress-label">Step 1 of 6</div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- STEP NAV -->
+  <div class="step-nav" id="step-nav">
+    <div class="step-dot active" onclick="goTo(0)" title="Choose your issue">1</div>
+    <div class="step-dot" onclick="goTo(1)" title="Bill title">2</div>
+    <div class="step-dot" onclick="goTo(2)" title="Preamble">3</div>
+    <div class="step-dot" onclick="goTo(3)" title="Clauses">4</div>
+    <div class="step-dot" onclick="goTo(4)" title="Opposition">5</div>
+    <div class="step-dot" onclick="goTo(5)" title="Opening speech">6</div>
+    <div class="step-dot" onclick="goTo(6)" title="Final checklist">✓</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ STEP 1 ═══ -->
+  <div class="step-card active" id="step-0">
+    <div class="step-header">
+      <div class="step-number">1</div>
+      <div class="step-header-text">
+        <h2>Choose Your Issue</h2>
+        <p>Every law starts with a problem. What do you want to change?</p>
+      </div>
+      <div class="step-emoji">📌</div>
+    </div>
+    <div class="step-body">
+
+      <div class="info-box">
+        <strong>What is a Bill?</strong><br>
+        A Bill is a proposal for a new law (or a change to an existing one) that Members of Parliament debate in the House of Commons. If approved by both Houses and given Royal Assent, it becomes an <strong>Act of Parliament</strong> — the law of the land.
+      </div>
+
+      <div class="two-col">
+        <div class="field-group">
+          <label>👤 Your name (MP)</label>
+          <input type="text" id="mp-name" placeholder="e.g. Sarah Johnson" />
+        </div>
+        <div class="field-group">
+          <label>🏘 Constituency</label>
+          <input type="text" id="constituency" placeholder="e.g. Manchester North" />
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="field-group">
+          <label>🏷 Party / Group</label>
+          <input type="text" id="party" placeholder="e.g. Green Party" />
+        </div>
+        <div class="field-group">
+          <label>📅 Date</label>
+          <input type="date" id="date" />
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>What problem do you want to solve?</label>
+        <textarea id="issue" rows="3" placeholder="e.g. Plastic waste in schools is increasing pollution and harming local rivers…"></textarea>
+        <div class="field-hint">💡 Think big — climate, health, education, inequality, housing, transport…</div>
+      </div>
+
+      <div class="field-group">
+        <label>Who is affected and why does it matter?</label>
+        <textarea id="affected" rows="3" placeholder="e.g. Young people aged 11–18 face increasing mental health challenges but only 1 in 4 schools has a trained counsellor…"></textarea>
+        <div class="field-hint">💡 Use statistics or real examples to make your case stronger!</div>
+      </div>
+
+      <div class="field-group">
+        <label>What is your proposed solution?</label>
+        <textarea id="solution" rows="2" placeholder="e.g. Require every secondary school to employ a qualified mental health counsellor…"></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-next" onclick="goTo(1)">Next: Draft Your Bill Title →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ STEP 2 ═══ -->
+  <div class="step-card" id="step-1">
+    <div class="step-header">
+      <div class="step-number">2</div>
+      <div class="step-header-text">
+        <h2>Draft the Title of Your Bill</h2>
+        <p>Every Bill needs an official short title and long title.</p>
+      </div>
+      <div class="step-emoji">📝</div>
+    </div>
+    <div class="step-body">
+      <div class="info-box">
+        <strong>Official format for the long title:</strong><br>
+        <em>"A Bill to [action verb] [topic] and for connected purposes."</em>
+      </div>
+
+      <div class="example-box">
+        <strong>Examples</strong>
+        "A Bill to <strong>reduce</strong> single-use plastics in educational settings and for connected purposes."<br>
+        "A Bill to <strong>require</strong> all secondary schools to provide mental health support and for connected purposes."<br>
+        "A Bill to <strong>establish</strong> a national youth climate council and for connected purposes."
+      </div>
+
+      <div class="phrase-bank">
+        <h4>✦ Useful action verbs — click to copy</h4>
+        <div class="phrase-chips">
+          <span class="phrase-chip" onclick="insertPhrase('bill-long', 'A Bill to reduce ')">reduce</span>
+          <span class="phrase-chip" onclick="insertPhrase('bill-long', 'A Bill to prohibit ')">prohibit</span>
+          <span class="phrase-chip" onclick="insertPhrase('bill-long', 'A Bill to establish ')">establish</span>
+          <span class="phrase-chip" onclick="insertPhrase('bill-long', 'A Bill to require ')">require</span>
+          <span class="phrase-chip" onclick="insertPhrase('bill-long', 'A Bill to regulate ')">regulate</span>
+          <span class="phrase-chip" onclick="insertPhrase('bill-long', 'A Bill to protect ')">protect</span>
+          <span class="phrase-chip" onclick="insertPhrase('bill-long', 'A Bill to amend ')">amend</span>
+          <span class="phrase-chip" onclick="insertPhrase('bill-long', 'A Bill to promote ')">promote</span>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Short Title (2–5 words)</label>
+        <input type="text" id="bill-short" placeholder="e.g. School Mental Health Act" />
+        <div class="field-hint">💡 This is the name people will use to refer to your law.</div>
+      </div>
+
+      <div class="field-group">
+        <label>Long Title (official format)</label>
+        <input type="text" id="bill-long" placeholder="A Bill to … and for connected purposes." />
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-prev" onclick="goTo(0)">← Back</button>
+        <button class="btn btn-next" onclick="goTo(2)">Next: Write the Preamble →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ STEP 3 ═══ -->
+  <div class="step-card" id="step-2">
+    <div class="step-header">
+      <div class="step-number">3</div>
+      <div class="step-header-text">
+        <h2>Write the Preamble</h2>
+        <p>The formal introduction explaining why this Bill is necessary.</p>
+      </div>
+      <div class="step-emoji">📖</div>
+    </div>
+    <div class="step-body">
+      <div class="info-box">
+        The Preamble sets the scene. It explains the problem, provides context, and justifies why Parliament must act. It uses <strong>formal, passive, and impersonal language</strong>.
+      </div>
+
+      <div class="phrase-bank">
+        <h4>✦ Parliamentary phrases — click to insert</h4>
+        <div class="phrase-chips">
+          <span class="phrase-chip" onclick="appendPhrase('preamble', 'WHEREAS the current legislation fails to address ')">WHEREAS…</span>
+          <span class="phrase-chip" onclick="appendPhrase('preamble', 'RECOGNISING that ')">RECOGNISING that</span>
+          <span class="phrase-chip" onclick="appendPhrase('preamble', 'ACKNOWLEDGING that ')">ACKNOWLEDGING</span>
+          <span class="phrase-chip" onclick="appendPhrase('preamble', 'NOTING WITH CONCERN that ')">NOTING WITH CONCERN</span>
+          <span class="phrase-chip" onclick="appendPhrase('preamble', 'IT IS HEREBY DECLARED that ')">IT IS HEREBY DECLARED</span>
+          <span class="phrase-chip" onclick="appendPhrase('preamble', 'BE IT ENACTED by the King\'s most Excellent Majesty… ')">BE IT ENACTED</span>
+        </div>
+      </div>
+
+      <div class="example-box">
+        <strong>Example preamble</strong>
+        WHEREAS the current provision of mental health support in secondary schools is inadequate; RECOGNISING that one in four young people in England will experience a mental health problem in any given year; ACKNOWLEDGING that early intervention significantly improves long-term outcomes; BE IT ENACTED by the King's most Excellent Majesty by and with the advice and consent of Parliament…
+      </div>
+
+      <div class="field-group">
+        <label>Your Preamble (3–5 sentences)</label>
+        <textarea id="preamble" rows="7" placeholder="WHEREAS… RECOGNISING… ACKNOWLEDGING… BE IT ENACTED…"></textarea>
+        <div class="field-hint">💡 Write in CAPITALS for the key words (WHEREAS, RECOGNISING…) and include at least one statistic.</div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-prev" onclick="goTo(1)">← Back</button>
+        <button class="btn btn-next" onclick="goTo(3)">Next: Write Your Clauses →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ STEP 4 ═══ -->
+  <div class="step-card" id="step-3">
+    <div class="step-header">
+      <div class="step-number">4</div>
+      <div class="step-header-text">
+        <h2>Write Your Clauses</h2>
+        <p>The numbered provisions — the actual rules of your Bill.</p>
+      </div>
+      <div class="step-emoji">⚖️</div>
+    </div>
+    <div class="step-body">
+      <div class="info-box">
+        Each <strong>clause</strong> is one numbered rule or obligation. Together, your clauses form the heart of your Bill. Write at least <strong>3 clauses</strong>.
+      </div>
+
+      <div class="phrase-bank">
+        <h4>✦ Clause language — click to insert</h4>
+        <div class="phrase-chips">
+          <span class="phrase-chip" onclick="appendToLastClause(' shall ')">shall</span>
+          <span class="phrase-chip" onclick="appendToLastClause(' must ')">must</span>
+          <span class="phrase-chip" onclick="appendToLastClause(' may ')">may</span>
+          <span class="phrase-chip" onclick="appendToLastClause(' is required to ')">is required to</span>
+          <span class="phrase-chip" onclick="appendToLastClause(' is prohibited from ')">is prohibited from</span>
+          <span class="phrase-chip" onclick="appendToLastClause(' shall not ')">shall not</span>
+          <span class="phrase-chip" onclick="appendToLastClause(' must comply with ')">must comply with</span>
+          <span class="phrase-chip" onclick="appendToLastClause(' is entitled to ')">is entitled to</span>
+        </div>
+      </div>
+
+      <div id="clauses-container">
+        <!-- Clause 1 -->
+        <div class="clause-item">
+          <div class="clause-num">CLAUSE 1</div>
+          <div class="field-group" style="margin-top:10px">
+            <label>Clause Title</label>
+            <input type="text" class="clause-title" placeholder="e.g. Duty to provide mental health support" />
+          </div>
+          <div class="field-group">
+            <label>Full text</label>
+            <textarea class="clause-text" rows="3" placeholder="e.g. Every secondary school in England shall employ at least one qualified mental health counsellor by September 2026."></textarea>
+          </div>
+        </div>
+        <!-- Clause 2 -->
+        <div class="clause-item">
+          <div class="clause-num">CLAUSE 2</div>
+          <div class="field-group" style="margin-top:10px">
+            <label>Clause Title</label>
+            <input type="text" class="clause-title" placeholder="e.g. Funding provisions" />
+          </div>
+          <div class="field-group">
+            <label>Full text</label>
+            <textarea class="clause-text" rows="3" placeholder="e.g. The Secretary of State must provide adequate funding to each Local Education Authority for the purposes of Clause 1…"></textarea>
+          </div>
+        </div>
+        <!-- Clause 3 -->
+        <div class="clause-item">
+          <div class="clause-num">CLAUSE 3</div>
+          <div class="field-group" style="margin-top:10px">
+            <label>Clause Title</label>
+            <input type="text" class="clause-title" placeholder="e.g. Annual reporting" />
+          </div>
+          <div class="field-group">
+            <label>Full text</label>
+            <textarea class="clause-text" rows="3" placeholder="e.g. Each school is required to publish an annual report on student mental health outcomes within its Ofsted review cycle…"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-prev" style="margin-top:8px; font-size:0.82rem" onclick="addClause()">+ Add another clause</button>
+
+      <div class="btn-row">
+        <button class="btn btn-prev" onclick="goTo(2)">← Back</button>
+        <button class="btn btn-next" onclick="goTo(4)">Next: Opposition Arguments →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ STEP 5 ═══ -->
+  <div class="step-card" id="step-4">
+    <div class="step-header">
+      <div class="step-number">5</div>
+      <div class="step-header-text">
+        <h2>Anticipate Opposition</h2>
+        <p>Strong MPs know the arguments against their Bill — and have answers ready.</p>
+      </div>
+      <div class="step-emoji">🗣</div>
+    </div>
+    <div class="step-body">
+      <div class="info-box">
+        In Parliament, opposing MPs will challenge your Bill. Prepare <strong>at least 2 objections</strong> and a counter-argument for each.
+      </div>
+
+      <div class="opp-grid">
+        <div>
+          <div class="opp-col-header against">❌ Likely Objections</div>
+          <div class="field-group" style="margin-top:12px">
+            <label>Objection 1</label>
+            <textarea id="obj1" rows="3" placeholder="e.g. This Bill would cost too much public money during a time of austerity…"></textarea>
+          </div>
+          <div class="field-group">
+            <label>Objection 2</label>
+            <textarea id="obj2" rows="3" placeholder="e.g. Schools should focus on academic outcomes, not become health providers…"></textarea>
+          </div>
+          <div class="field-group">
+            <label>Objection 3</label>
+            <textarea id="obj3" rows="3" placeholder="e.g. There is no evidence this approach works at scale…"></textarea>
+          </div>
+        </div>
+        <div>
+          <div class="opp-col-header for">✅ Your Counter-arguments</div>
+          <div class="field-group" style="margin-top:12px">
+            <label>Your response to Objection 1</label>
+            <textarea id="counter1" rows="3" placeholder="e.g. The long-term cost of untreated mental illness to the NHS far exceeds the cost of prevention…"></textarea>
+          </div>
+          <div class="field-group">
+            <label>Your response to Objection 2</label>
+            <textarea id="counter2" rows="3" placeholder="e.g. Research shows that pupils with good mental health achieve better academic outcomes…"></textarea>
+          </div>
+          <div class="field-group">
+            <label>Your response to Objection 3</label>
+            <textarea id="counter3" rows="3" placeholder="e.g. I refer Honourable Members to the 2023 NHS England study showing a 34% improvement…"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-prev" onclick="goTo(3)">← Back</button>
+        <button class="btn btn-next" onclick="goTo(5)">Next: Your Opening Speech →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ STEP 6 ═══ -->
+  <div class="step-card" id="step-5">
+    <div class="step-header">
+      <div class="step-number">6</div>
+      <div class="step-header-text">
+        <h2>Prepare Your Opening Speech</h2>
+        <p>You will speak for approximately 2 minutes to present your Bill.</p>
+      </div>
+      <div class="step-emoji">🎙</div>
+    </div>
+    <div class="step-body">
+      <div class="info-box">
+        An MP always opens their speech by addressing the <strong>Speaker</strong> and their fellow MPs. Your speech should be passionate but formal.
+      </div>
+
+      <div class="phrase-bank">
+        <h4>✦ Opening formulas — click to insert</h4>
+        <div class="phrase-chips">
+          <span class="phrase-chip" onclick="appendPhrase('speech-hook', 'Mr Speaker, I beg to move that this Bill be read a second time. ')">I beg to move…</span>
+          <span class="phrase-chip" onclick="appendPhrase('speech-hook', 'Madam Speaker, Honourable Members, today I rise to propose… ')">I rise to propose…</span>
+          <span class="phrase-chip" onclick="appendPhrase('speech-hook', 'Mr Speaker, I wish to draw the attention of this House to… ')">I wish to draw attention…</span>
+        </div>
+      </div>
+
+      <div class="speech-block">
+        <div class="speech-block-header">1. Opening Hook — Address the Speaker</div>
+        <div class="speech-block-body">
+          <textarea id="speech-hook" rows="3" placeholder="Mr Speaker / Madam Speaker… I beg to move…"></textarea>
+        </div>
+      </div>
+
+      <div class="speech-block">
+        <div class="speech-block-header">2. The Problem — with evidence</div>
+        <div class="speech-block-body">
+          <textarea id="speech-problem" rows="4" placeholder="Describe the problem. Use a statistic or a real-world example to make it vivid and urgent…"></textarea>
+        </div>
+      </div>
+
+      <div class="speech-block">
+        <div class="speech-block-header">3. Your Bill's Solution — key clauses</div>
+        <div class="speech-block-body">
+          <textarea id="speech-solution" rows="4" placeholder="Explain what your Bill will do. Refer to your key clauses. 'My Bill would require… would establish… would prohibit…'"></textarea>
+        </div>
+      </div>
+
+      <div class="speech-block">
+        <div class="speech-block-header">4. Closing — Call to Action</div>
+        <div class="speech-block-body">
+          <textarea id="speech-close" rows="3" placeholder="'I urge all Honourable Members to support this Bill…' / 'The time for action is now…'"></textarea>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-prev" onclick="goTo(4)">← Back</button>
+        <button class="btn btn-next" onclick="goTo(6)">Next: Final Checklist →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ STEP 7 — CHECKLIST ═══ -->
+  <div class="step-card" id="step-6">
+    <div class="step-header">
+      <div class="step-number">✓</div>
+      <div class="step-header-text">
+        <h2>Final Checklist & Bill Preview</h2>
+        <p>Tick each box when you're ready — then preview your complete Bill!</p>
+      </div>
+      <div class="step-emoji">🏛</div>
+    </div>
+    <div class="step-body">
+
+      <div id="checklist">
+        <label class="checklist-item" onclick="toggleCheck(this)">
+          <input type="checkbox"> <span>My Bill title follows the official format (<em>A Bill to…</em>)</span>
+        </label>
+        <label class="checklist-item" onclick="toggleCheck(this)">
+          <input type="checkbox"> <span>I have written a clear preamble explaining why the Bill is needed</span>
+        </label>
+        <label class="checklist-item" onclick="toggleCheck(this)">
+          <input type="checkbox"> <span>I have at least 3 numbered clauses using formal language (<em>shall / must…</em>)</span>
+        </label>
+        <label class="checklist-item" onclick="toggleCheck(this)">
+          <input type="checkbox"> <span>I have identified at least 2 likely objections and prepared counter-arguments</span>
+        </label>
+        <label class="checklist-item" onclick="toggleCheck(this)">
+          <input type="checkbox"> <span>I know my opening phrase by heart (<em>Mr/Madam Speaker…</em>)</span>
+        </label>
+        <label class="checklist-item" onclick="toggleCheck(this)">
+          <input type="checkbox"> <span>I can speak for approximately 2 minutes without reading word-for-word</span>
+        </label>
+        <label class="checklist-item" onclick="toggleCheck(this)">
+          <input type="checkbox"> <span>I have at least one statistic or real-world example to support my Bill</span>
+        </label>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-prev" onclick="goTo(5)">← Back</button>
+        <button class="btn btn-export" onclick="showPreview()">🏛 Preview My Bill</button>
+        <button class="btn btn-next" onclick="window.print()">🖨 Print</button>
+      </div>
+
+      <!-- BILL PREVIEW -->
+      <div id="bill-preview">
+        <h3>HOUSE OF COMMONS</h3>
+        <div class="bill-title" id="preview-title"></div>
+        <div class="bill-section" id="preview-mp"></div>
+        <div class="bill-section" id="preview-preamble"></div>
+        <div class="bill-section" id="preview-clauses"></div>
+      </div>
+
+      <!-- VOCAB TABLE -->
+      <h3 style="margin: 32px 0 12px; font-family: 'Playfair Display', serif; color: var(--navy); font-size: 1.1rem;">📚 Parliamentary Vocabulary Reference</h3>
+      <table class="vocab-table">
+        <thead>
+          <tr><th>Term</th><th>Meaning</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="term">Bill</td><td>A proposed law being debated in Parliament</td></tr>
+          <tr><td class="term">Act / Statute</td><td>A Bill that has been approved and become law</td></tr>
+          <tr><td class="term">Clause</td><td>A numbered section of a Bill</td></tr>
+          <tr><td class="term">Amendment</td><td>A proposed change to a Bill during debate</td></tr>
+          <tr><td class="term">Honourable Member</td><td>How MPs refer to each other in the Chamber</td></tr>
+          <tr><td class="term">The Ayes / The Noes</td><td>MPs voting For / Against a motion</td></tr>
+          <tr><td class="term">Division</td><td>A formal vote in the House of Commons</td></tr>
+          <tr><td class="term">Mr / Madam Speaker</td><td>The neutral chair who controls the debate</td></tr>
+          <tr><td class="term">Second Reading</td><td>The main debate on the general principles of a Bill</td></tr>
+          <tr><td class="term">Royal Assent</td><td>The Monarch's formal approval — the Bill becomes law</td></tr>
+          <tr><td class="term">Green Paper / White Paper</td><td>Consultation / policy documents before a Bill is drafted</td></tr>
+          <tr><td class="term">I beg to move…</td><td>The formal phrase to introduce a motion or Bill</td></tr>
+          <tr><td class="term">I yield to…</td><td>Giving way to another MP during your speech</td></tr>
+          <tr><td class="term">Order! Order!</td><td>The Speaker restoring silence in the Chamber</td></tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+</main>
+
+<script>
+let currentStep = 0;
+const totalSteps = 7;
+let clauseCount = 3;
+
+function goTo(n) {
+  document.getElementById('step-' + currentStep).classList.remove('active');
+  document.querySelectorAll('.step-dot')[currentStep].classList.remove('active');
+  if (currentStep < n) document.querySelectorAll('.step-dot')[currentStep].classList.add('done');
+
+  currentStep = n;
+  document.getElementById('step-' + currentStep).classList.add('active');
+  document.querySelectorAll('.step-dot')[currentStep].classList.add('active');
+  document.querySelectorAll('.step-dot')[currentStep].classList.remove('done');
+
+  const pct = ((n + 1) / totalSteps * 100).toFixed(0);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = n < 6 ? `Step ${n+1} of 6` : 'Final Review';
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleCheck(el) {
+  setTimeout(() => el.classList.toggle('checked', el.querySelector('input').checked), 10);
+}
+
+function insertPhrase(id, text) {
+  document.getElementById(id).value = text;
+  document.getElementById(id).focus();
+}
+
+function appendPhrase(id, text) {
+  const el = document.getElementById(id);
+  const v = el.value;
+  el.value = v ? v + ' ' + text : text;
+  el.focus();
+}
+
+function appendToLastClause(text) {
+  const textareas = document.querySelectorAll('.clause-text');
+  const last = textareas[textareas.length - 1];
+  last.value = last.value + text;
+  last.focus();
+}
+
+function addClause() {
+  clauseCount++;
+  const container = document.getElementById('clauses-container');
+  const div = document.createElement('div');
+  div.className = 'clause-item';
+  div.innerHTML = `
+    <div class="clause-num">CLAUSE ${clauseCount}</div>
+    <div class="field-group" style="margin-top:10px">
+      <label>Clause Title</label>
+      <input type="text" class="clause-title" placeholder="e.g. Penalties for non-compliance" />
+    </div>
+    <div class="field-group">
+      <label>Full text</label>
+      <textarea class="clause-text" rows="3" placeholder="Any person or institution who fails to comply with Clause 1 shall be subject to…"></textarea>
+    </div>`;
+  container.appendChild(div);
+}
+
+function showPreview() {
+  const name = document.getElementById('mp-name').value || '[Your Name]';
+  const constituency = document.getElementById('constituency').value || '[Your Constituency]';
+  const shortTitle = document.getElementById('bill-short').value || '[Bill Title]';
+  const longTitle = document.getElementById('bill-long').value || 'A Bill to…';
+  const preamble = document.getElementById('preamble').value || '[Preamble not written]';
+
+  document.getElementById('preview-title').innerHTML = `<strong>${shortTitle}</strong><br><em>${longTitle}</em>`;
+  document.getElementById('preview-mp').innerHTML = `<strong>Introduced by:</strong> ${name}, MP for ${constituency}`;
+  document.getElementById('preview-preamble').innerHTML = `<strong>Preamble:</strong><br>${preamble.replace(/\n/g, '<br>')}`;
+
+  const titles = document.querySelectorAll('.clause-title');
+  const texts = document.querySelectorAll('.clause-text');
+  let clauseHTML = '<strong>Provisions:</strong><br>';
+  titles.forEach((t, i) => {
+    if (t.value || texts[i].value) {
+      clauseHTML += `<br><strong>${i+1}. ${t.value || 'Clause ' + (i+1)}</strong><br>${texts[i].value || '—'}<br>`;
+    }
+  });
+  document.getElementById('preview-clauses').innerHTML = clauseHTML;
+
+  const preview = document.getElementById('bill-preview');
+  preview.style.display = 'block';
+  preview.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// Set today's date by default
+document.getElementById('date').valueAsDate = new Date();
+</script>
+</body>
+</html>
